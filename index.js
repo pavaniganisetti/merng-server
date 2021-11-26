@@ -10,6 +10,11 @@ const resolvers = require("./graphql/resolvers");
 const typeDefs = require("./graphql/typeDefs");
 const { MONGODB } = require("./config");
 
+const PostDS = require("./graphql/datasources/posts");
+const UserDS = require("./graphql/datasources/users");
+const Post = require("./models/Post");
+const User = require("./models/User");
+
 (async function () {
     const app = express();
     const httpServer = createServer(app);
@@ -23,6 +28,10 @@ const { MONGODB } = require("./config");
     const server = new ApolloServer({
         schema,
         context: ({ req }) => ({ req, pubsub }),
+        dataSources: () => ({
+            postDS: new PostDS(Post),
+            userDS: new UserDS(User),
+        }),
     });
 
     await server.start().catch((err) => console.log(err));
