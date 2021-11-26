@@ -12,8 +12,10 @@ const { MONGODB } = require("./config");
 
 const PostDS = require("./graphql/datasources/posts");
 const UserDS = require("./graphql/datasources/users");
+const CommentsDS = require("./graphql/datasources/comments");
 const Post = require("./models/Post");
 const User = require("./models/User");
+const Comment = require("./models/Comment");
 
 (async function () {
     const app = express();
@@ -31,6 +33,7 @@ const User = require("./models/User");
         dataSources: () => ({
             postDS: new PostDS(Post),
             userDS: new UserDS(User),
+            commentsDS: new CommentsDS(Comment),
         }),
     });
 

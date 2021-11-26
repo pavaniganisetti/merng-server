@@ -1,4 +1,3 @@
-const User = require("../../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../../config");
@@ -73,12 +72,12 @@ module.exports = {
                 });
             password = await bcrypt.hash(password, 12);
 
-            const newUser = new User({
+            const newUser = {
                 email,
                 password,
                 username,
                 createdAt: new Date().toISOString(),
-            });
+            };
 
             const res = await userDS.createUser(newUser);
             const token = generateToken(res);
